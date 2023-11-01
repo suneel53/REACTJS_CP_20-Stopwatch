@@ -1,0 +1,111 @@
+/* Write CSS here */
+.app-cont {
+  background-image: url('https://assets.ccbp.in/frontend/react-js/stopwatch-sm-bg.png');
+  background-size: cover;
+  height: 100vh;
+}
+@media (min-width: 768px) {
+  .app-cont {
+    background-image: url('https://assets.ccbp.in/frontend/react-js/stopwatch-lg-bg.png');
+  }
+}
+
+.stopwatch-cont {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 50px;
+}
+@media (min-width: 768px) {
+  .stopwatch-cont {
+    align-items: flex-start;
+    margin-left: 150px;
+  }
+}
+
+.hed1 {
+  color: #333333;
+  font-family: 'Roboto';
+  font-size: 30px;
+  font-weight: 500;
+}
+@media (min-width: 992px) {
+  .hed1 {
+    font-size: 60px;
+  }
+}
+
+.timer-cont {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: #ffffff;
+  width: 310px;
+  border-radius: 14px;
+  padding: 30px;
+  box-shadow: 0px 4px 4px rgba(23, 31, 70, 0.16);
+}
+
+.timer {
+  display: flex;
+  align-items: center;
+}
+
+.timer-image {
+  margin-right: 8px;
+}
+.para1 {
+  font-size: 24px;
+  font-weight: 500;
+  color: #333333;
+  font-family: 'Roboto';
+}
+
+.hed2 {
+  color: #333333;
+  font-family: 'Roboto';
+  font-size: 32px;
+  font-weight: 600px;
+  margin-top: 0px;
+}
+
+@media (min-width: 768px) {
+  .hed2 {
+    font-size: 64px;
+  }
+}
+
+.timer-buts {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.but {
+  color: #ffffff;
+  font-family: 'Roboto';
+  font-size: 14px;
+  font-weight: 600;
+  border-radius: 5px;
+  padding: 4px 20px 4px 20px;
+  cursor: pointer;
+  border: none;
+  outline: none;
+}
+@media (min-width: 768px) {
+  .but {
+    padding: 10px 20px 10px 20px;
+  }
+}
+
+.start-but {
+  background-color: #1db05f;
+  margin-right: 24px;
+}
+.stop-but {
+  background-color: #ef0d36;
+  margin-right: 24px;
+}
+.reset-but {
+  background-color: #eaa800;
+}
