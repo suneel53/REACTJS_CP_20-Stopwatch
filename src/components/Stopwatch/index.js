@@ -1,93 +1,150 @@
 // Write your code here
 import {Component} from 'react'
+// import {v4 as uuidv4} from 'uuid'
 import './index.css'
 
-class Stopwatch extends Component {
+class DigitalTimer extends Component {
   state = {
-    isRunning: false,
-    timeElapsedinSeconds: 0,
+    tes: 1500,
+    isStarted: false,
+  }
+
+  updateIsStarted = () => {
+    this.setState({isStarted: true})
+  }
+
+  clearTimeInterval = () => {
+    console.log('clearTimeInterval called')
+    clearInterval(this.timerId)
+    this.setState({isStarted: false})
+  }
+
+  getMinutes = () => {
+    const {tes} = this.state
+    const min = Math.floor(tes / 60)
+    if (min < 10) {
+      return `0${min}`
+    }
+    return min
+  }
+
+  getSeconds = () => {
+    const {tes} = this.state
+    const sec = Math.floor(tes % 60)
+    if (sec < 10) {
+      return `0${sec}`
+    }
+    return sec
   }
 
   updateTime = () => {
+    const {tes} = this.state
+    if (tes === 0) {
+      this.clearTimeInterval()
+      return
+    }
+    console.log('onStartTimer - updateTime- called')
     this.setState(prevState => ({
-      timeElapsedinSeconds: prevState.timeElapsedinSeconds + 1,
+      tes: prevState.tes - 1,
     }))
   }
 
   onStartTimer = () => {
-    this.timerInterval = setInterval(this.updateTime, 1000)
-    this.setState({isRunning: true})
+    this.updateIsStarted()
+    console.log('onStartTimer called')
+    this.timerId = setInterval(this.updateTime, 1000)
   }
 
-  onStoptimer = () => {
-    clearInterval(this.timerInterval)
-    this.setState({isRunning: false})
+  onreset = () => {
+    console.log('onreset called')
+    this.clearTimeInterval(this.timerId)
+    this.setState({
+      isStarted: false,
+      tes: 1500,
+    })
   }
 
-  onResettimer = () => {
-    clearInterval(this.timerInterval)
-    this.setState({isRunning: false, timeElapsedinSeconds: 0})
+  increasetime = () => {
+    this.setState(prevState => ({
+      tes: prevState.tes + 60,
+    }))
   }
 
-  renderSeconds = () => {
-    const {timeElapsedinSeconds} = this.state
-    const seconds = Math.floor(timeElapsedinSeconds % 60)
-
-    if (seconds < 10) {
-      return `0${seconds}`
-    }
-    return seconds
+  decreasetime = () => {
+    this.setState(prevState => ({
+      tes: prevState.tes - 60,
+    }))
   }
 
-  renderMinutes = () => {
-    const {timeElapsedinSeconds} = this.state
-    const minutes = Math.floor(timeElapsedinSeconds / 60)
-
-    if (minutes < 10) {
-      return `0${minutes}`
-    }
-    return minutes
-  }
-
+  // updated code
   render() {
-    const {isRunning} = this.state
-    const time = `${this.renderMinutes()}:${this.renderSeconds()}`
+    const {isStarted} = this.state
+
+    const minutes = this.getMinutes()
+    const seconds = this.getSeconds()
+    const url = isStarted
+      ? 'https://assets.ccbp.in/frontend/react-js/pause-icon-img.png'
+      : 'https://assets.ccbp.in/frontend/react-js/play-icon-img.png'
+    const alt = isStarted ? 'pause icon' : 'play icon'
     return (
-      <div className="app-cont">
-        <div className="stopwatch-cont">
-          <h1 className="hed1">Stopwatch</h1>
+      <div className="bg-cont">
+        <h1>Digital Timer</h1>
+        <div className="cont">
           <div className="timer-cont">
-            <div className="timer">
-              <img
-                src="https://assets.ccbp.in/frontend/react-js/stopwatch-timer.png"
-                alt="stopwatch"
-                className="timer-image"
-              />
-              <p className="para1">Timer</p>
+            <div className="timer-circle">
+              <h1 className="timer">
+                {minutes}:{seconds}
+              </h1>
+              <p>{isStarted ? 'Running' : 'Paused'}</p>
             </div>
-            <h1 className="hed2">{time}</h1>
-            <div className="timer-buts">
+          </div>
+          <div className="cont-2">
+            <div className="startandreset-cont">
+              <div className="start-cont">
+                <button
+                  type="button"
+                  onClick={
+                    isStarted ? this.clearTimeInterval : this.onStartTimer
+                  }
+                  className="but-start"
+                >
+                  <img src={url} alt={alt} className="start-icon" />
+                  {isStarted ? 'Pause' : 'Start'}
+                </button>
+              </div>
+              <div className="start-cont">
+                <button
+                  type="button"
+                  onClick={this.onreset}
+                  className="but-start"
+                >
+                  <img
+                    src="https://assets.ccbp.in/frontend/react-js/reset-icon-img.png"
+                    alt="reset icon"
+                    className="start-icon"
+                  />
+                </button>
+                <p>Reset</p>
+              </div>
+            </div>
+            <p>Set Timer limit</p>
+            <div className="increaseordecrese-cont">
               <button
+                className=""
                 type="button"
-                onClick={this.onStartTimer}
-                disabled={isRunning}
-                className="start-but but"
+                onClick={this.decreasetime}
+                disabled={isStarted}
               >
-                Start
+                -
               </button>
+              <p className="countnumber">{minutes}</p>
               <button
+                className=""
                 type="button"
-                onClick={this.onStoptimer}
-                className="stop-but but"
+                onClick={this.increasetime}
+                disabled={isStarted}
               >
-                Stop
-              </button>
-              <button
-                type="button"
-                onClick={this.onResettimer}
-                className="reset-but but"
-              >
-                Reset
+                +
               </button>
             </div>
           </div>
@@ -97,4 +154,4 @@ class Stopwatch extends Component {
   }
 }
 
-export default Stopwatch
+export default DigitalTimer
